@@ -15,33 +15,98 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class InternalMarksActivity extends AppCompatActivity{
+import java.util.ArrayList;
 
-    WebView wvimark;
+public class InternalMarksActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+    WebView wvimark,wvsubtable;
+    Spinner spinnersemimark,spinnertypeimark;
+    ArrayList<String> attr,values;
+    int pos1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_internal_marks);
-
         ActionBar actionBar=getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Internal Marks");
 
         wvimark=findViewById(R.id.wvimark);
+        wvsubtable=findViewById(R.id.wvsubtable);
+        spinnersemimark=findViewById(R.id.spinnersemimark);
+        spinnertypeimark=findViewById(R.id.spinnertypeimark);
 
-        SetInternals setInternals=new SetInternals();
-        setInternals.execute();
+        wvsubtable.getSettings().setLoadWithOverviewMode(true);
+        wvsubtable.getSettings().setUseWideViewPort(true);
+
+        wvimark.getSettings().setBuiltInZoomControls(true);
+
+        attr=new ArrayList<String>();
+        attr.add("Internal Exam 1");
+        attr.add("Internal Exam 2");
+        attr.add("Assignment 1");
+        attr.add("Assignment 2");
+        attr.add("Assignment 3");
+        attr.add("Practical exam");
+
+        values=new ArrayList<String>();
+        values.add("10");
+        values.add("11");
+        values.add("12");
+        values.add("37");
+        values.add("38");
+        values.add("44");
+
+        ArrayAdapter<String> semadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,WebHandler.listsem);
+        semadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnersemimark.setAdapter(semadapter);
+
+        ArrayAdapter<String> typeadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,attr);
+        typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnertypeimark.setAdapter(typeadapter);
+
+        spinnersemimark.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        spinnertypeimark.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
+        if(parent.getId()==R.id.spinnersemimark)
+        {
+            pos1=position;
+            ArrayAdapter<String> typeadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,attr);
+            typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnertypeimark.setAdapter(typeadapter);
+            spinnertypeimark.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        }
+        else if(parent.getId()==R.id.spinnertypeimark)
+        {
+            SetInternals setInternals=new SetInternals("https://www.rajagiritech.ac.in/stud/ktu/Student/Mark.asp?code="+WebHandler.listsem.get(pos1)+"&E_ID="+values.get(position));
+            setInternals.execute();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
     @SuppressLint("StaticFieldLeak")
     public class SetInternals extends AsyncTask<Void,Void,Void>
     {
+        String url,table;
         ProgressDialog dialog;
+
+        public SetInternals(String url) {
+            this.url = url;
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
-
+            table=WebHandler.setSessionalMarkTable(url);
             return null;
         }
         @Override
@@ -54,6 +119,11 @@ public class InternalMarksActivity extends AppCompatActivity{
         }
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
+            wvimark.loadData(newhtml_code,"text/html", "base64");
+
+            String subtable = Base64.encodeToString(WebHandler.subjectsTable.getBytes(), Base64.NO_PADDING);
+            wvsubtable.loadData(subtable,"text/html", "base64");
             dialog.dismiss();
 
         }

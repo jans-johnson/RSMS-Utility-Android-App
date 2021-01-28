@@ -33,4 +33,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnertypeimark"
         app:layout_constraintVertical_bias="0.081" />
+
+    <WebView
+        android:id="@+id/wvsubtable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wvimark" />
 </androidx.constraintlayout.widget.ConstraintLayout>
