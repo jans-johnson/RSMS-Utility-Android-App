@@ -2,7 +2,6 @@ package com.jns.rsmsutility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,8 +35,7 @@ public class WebHandler
                     .method(Connection.Method.POST)
                     .execute();
 
-            Map<String,String> coky=loginForm.cookies();
-            return coky;
+            return loginForm.cookies();
 
         } catch (Exception e)
         {
@@ -81,7 +78,7 @@ public class WebHandler
         {
             //handle
         }
-        return " ";
+        return "x";
     }
 
     public static String setAttendanceTable(String url)
@@ -133,7 +130,7 @@ public class WebHandler
                     }
                 }
             }
-            Set<String> newList=new HashSet<String>(hourlist);
+            Set<String> newList= new HashSet<>(hourlist);
             for(String s:newList)
             {
                 hournumber.add(s+"  :  "+ Collections.frequency(hourlist, s));
@@ -143,7 +140,7 @@ public class WebHandler
         }
         catch (Exception e)
         {
-            //handle
+            //
         }
         return " ";
     }

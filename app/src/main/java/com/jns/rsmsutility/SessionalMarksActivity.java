@@ -1,5 +1,6 @@
 package com.jns.rsmsutility;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -12,6 +13,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class SessionalMarksActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -22,6 +24,11 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessional_marks);
+
+        ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("Sessional Marks");
+
         spinnersemsess=findViewById(R.id.spinnersemsess);
         wvsessional=findViewById(R.id.wvsessional);
         wvsubjects=findViewById(R.id.wvsubjects);
@@ -29,6 +36,7 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
         //Scale the WebView to fit the screen
         wvsubjects.getSettings().setLoadWithOverviewMode(true);
         wvsubjects.getSettings().setUseWideViewPort(true);
+        wvsubjects.getSettings().setDefaultFontSize(30);
 
         //Scale the WebView to fit the screen
         //wvsessional.getSettings().setLoadWithOverviewMode(true);
@@ -80,13 +88,20 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
         }
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
-            wvsessional.loadData(newhtml_code,"text/html", "base64");
 
-            String subtable = Base64.encodeToString(WebHandler.subjectsTable.getBytes(), Base64.NO_PADDING);
-            wvsubjects.loadData(subtable,"text/html", "base64");
-            dialog.dismiss();
+            if(table.equals(" "))
+            {
+                dialog.dismiss();
+                Toast.makeText(SessionalMarksActivity.this,"Error Loading Table !!!",Toast.LENGTH_LONG).show();
+            }
+            else {
+                String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
+                wvsessional.loadData(newhtml_code, "text/html", "base64");
 
+                String subtable = Base64.encodeToString(WebHandler.subjectsTable.getBytes(), Base64.NO_PADDING);
+                wvsubjects.loadData(subtable, "text/html", "base64");
+                dialog.dismiss();
+            }
 
         }
     }

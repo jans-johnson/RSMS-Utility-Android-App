@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -13,7 +15,9 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,7 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
     WebView wvimark,wvsubtable;
     Spinner spinnersemimark,spinnertypeimark;
     ArrayList<String> attr,values;
+    Button btngotoweb;
     int pos1;
 
     @Override
@@ -36,9 +41,11 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         wvsubtable=findViewById(R.id.wvsubtable);
         spinnersemimark=findViewById(R.id.spinnersemimark);
         spinnertypeimark=findViewById(R.id.spinnertypeimark);
+        btngotoweb=findViewById(R.id.btngotoweb);
 
         wvsubtable.getSettings().setLoadWithOverviewMode(true);
         wvsubtable.getSettings().setUseWideViewPort(true);
+        wvsubtable.getSettings().setDefaultFontSize(30);
 
         wvimark.getSettings().setBuiltInZoomControls(true);
 
@@ -62,12 +69,19 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         semadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnersemimark.setAdapter(semadapter);
 
+        btngotoweb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.rajagiritech.ac.in/stud/ktu/Student/"));
+                startActivity(intent);
+            }
+        });
         ArrayAdapter<String> typeadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,attr);
         typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnertypeimark.setAdapter(typeadapter);
 
-        spinnersemimark.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
-        spinnertypeimark.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        spinnersemimark.setOnItemSelectedListener(this);
+        spinnertypeimark.setOnItemSelectedListener(this);
 
     }
 
@@ -119,12 +133,19 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         }
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
-            wvimark.loadData(newhtml_code,"text/html", "base64");
+            if(table.equals(" "))
+            {
+                dialog.dismiss();
+                Toast.makeText(InternalMarksActivity.this,"Error Loading Table !!!",Toast.LENGTH_LONG).show();
+            }
+            else {
+                String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
+                wvimark.loadData(newhtml_code, "text/html", "base64");
 
-            String subtable = Base64.encodeToString(WebHandler.subjectsTable.getBytes(), Base64.NO_PADDING);
-            wvsubtable.loadData(subtable,"text/html", "base64");
-            dialog.dismiss();
+                String subtable = Base64.encodeToString(WebHandler.subjectsTable.getBytes(), Base64.NO_PADDING);
+                wvsubtable.loadData(subtable, "text/html", "base64");
+                dialog.dismiss();
+            }
 
         }
     }
