@@ -2,7 +2,6 @@ package com.jns.rsmsutility;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
@@ -12,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         {
             if (resultCode==RESULT_OK)
             {
+                assert data != null;
                 WebHandler.user=data.getStringExtra("uid");
                 WebHandler.pass=data.getStringExtra("pass");
 
@@ -162,6 +161,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Invalid Login Id/ Password",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.LoginActivity.class);
                 startActivityForResult(intent, 3);
+            }
+            else if(name.equals("x")){
+                cvattendance.setEnabled(false);
+                cvinternalmarks.setEnabled(false);
+                cvsessionalmarks.setEnabled(false);
+                Toast.makeText(MainActivity.this,"Please Connect to the Internet and Try again !!",Toast.LENGTH_LONG).show();
             }
             else
             {

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,17 +84,24 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
-            wvtable.loadData(newhtml_code,"text/html", "base64");
-            tvtotal.setText("Total Hours lost: "+WebHandler.hrs);
-            tvLeave.setText("Leave: "+WebHandler.lhrs);
-            tvApproved.setText("Approved Leave: "+WebHandler.aphrs);
-            tvDuty.setText("Duty Leave: "+WebHandler.dhrs);
-            tvDutyAtt.setText("Duty Attendance: "+WebHandler.dahrs);
-            dialog.dismiss();
+            if(table.equals(" "))
+            {
+                dialog.dismiss();
+                Toast.makeText(AttendanceActivity.this,"Error Loading Table !!!",Toast.LENGTH_LONG).show();
+            }
+            else {
+                String newhtml_code = Base64.encodeToString(table.getBytes(), Base64.NO_PADDING);
+                wvtable.loadData(newhtml_code, "text/html", "base64");
+                tvtotal.setText("Total Hours lost: " + WebHandler.hrs);
+                tvLeave.setText("Leave: " + WebHandler.lhrs);
+                tvApproved.setText("Approved Leave: " + WebHandler.aphrs);
+                tvDuty.setText("Duty Leave: " + WebHandler.dhrs);
+                tvDutyAtt.setText("Duty Attendance: " + WebHandler.dahrs);
+                dialog.dismiss();
 
-            ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(AttendanceActivity.this,android.R.layout.simple_list_item_1,WebHandler.hournumber);
-            lvHours.setAdapter(arrayAdapter);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AttendanceActivity.this, android.R.layout.simple_list_item_1, WebHandler.hournumber);
+                lvHours.setAdapter(arrayAdapter);
+            }
 
         }
 
