@@ -13,6 +13,7 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +21,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     String name;
     SharedPreferences sharedPreferences;
-    TinyDB tinyDB;
     JsoupTest jsoupTest;
-    TextView tvname,tvuid;
+    TextView tvname,tvuid,tvpassword;
+    ImageView ivpic;
     CardView cvattendance,cvinternalmarks,cvsessionalmarks;
 
     //method to save the credentials to sharedPreferences to be reused
@@ -31,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("uid",WebHandler.user);
         editor.putString("pass",WebHandler.pass);
-        editor.putString("name",name);
         editor.apply();
-        tinyDB.putListString("semlist",WebHandler.listsem);
     }
 
     //method to obtain credentials from sharedPreferences
@@ -41,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     {
         WebHandler.user=sharedPreferences.getString("uid","");
         WebHandler.pass=sharedPreferences.getString("pass","");
-
-        WebHandler.listsem=tinyDB.getListString("semlist");
 
     }
 
@@ -56,18 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        ivpic=findViewById(R.id.ivpic);
         tvname=findViewById(R.id.tvname);
         tvuid=findViewById(R.id.tvuid);
+        tvpassword=findViewById(R.id.tvpassword);
 
         cvattendance=findViewById(R.id.cvattendance);
         cvinternalmarks=findViewById(R.id.cvinternalmarks);
         cvsessionalmarks=findViewById(R.id.cvsessionalmarks);
 
         sharedPreferences=getSharedPreferences("login",MODE_PRIVATE);
-        tinyDB=new TinyDB(this);
 
 
-        if(savedInstanceState == null){
             if(!sharedPreferences.contains("pass")) {
                 Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.LoginActivity.class);
                 startActivityForResult(intent, 3);
@@ -75,11 +72,10 @@ public class MainActivity extends AppCompatActivity {
             else {
                 //setting info in the app if previously logged in
                 getCred();
-                tvname.setText(sharedPreferences.getString("name","name not found"));
-                tvuid.setText(WebHandler.user);
+                jsoupTest=new JsoupTest(WebHandler.user,WebHandler.pass);
+                jsoupTest.execute();
             }
 
-        }
 
         //setting on click listener of Attendance CardView
         cvattendance.setOnClickListener(v -> {
@@ -160,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            dialog.dismiss();
 
             //checking the authentication of the user
             if(name.equals(" ")) {
@@ -173,7 +168,10 @@ public class MainActivity extends AppCompatActivity {
                 saveCred();
                 tvname.setText(name);
                 tvuid.setText(WebHandler.user);
+                tvpassword.setText(WebHandler.pass);
+                ivpic.setImageBitmap(WebHandler.image);
             }
+            dialog.dismiss();
         }
     }
 

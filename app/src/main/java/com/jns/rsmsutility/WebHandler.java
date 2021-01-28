@@ -1,6 +1,7 @@
 package com.jns.rsmsutility;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.jsoup.Connection;
@@ -9,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +25,7 @@ public class WebHandler
     public static int hrs,lhrs,aphrs,dhrs,dahrs;
     public static Map<String, String> coky;
     public static ArrayList<String> listsem,hournumber;
+    public static Bitmap image;
 
     //Function to be called so as to obtain cookies
     public static Map<String,String> getCookie()
@@ -64,6 +67,8 @@ public class WebHandler
             listsem = new ArrayList<String>(Arrays.asList(list));
             listsem.remove("Class");
             listsem.remove("Code:");
+            InputStream inputStream=new java.net.URL("https://www.rajagiritech.ac.in/stud/ktu/stud/Photo/"+user+".jpg").openStream();
+            image= BitmapFactory.decodeStream(inputStream);
             if (!home.title().equals("RSET - RSMS Login")) {
                  return home.getElementsByClass("scroller").text().split(":")[1];
             }
