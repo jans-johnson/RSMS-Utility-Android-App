@@ -97,13 +97,12 @@ public class WebHandler
             Elements rows = table2.select("tr");
             Elements cols;
             Element row;
-            Element cell,date;
-            for (int i = 5; i < (rows.size()-2); i++) { //first row is the col names so skip it.
+            Element cell;
+            for (int i = 5; i < (rows.size()-2); i++) {
                 row = rows.select("tr").get(i);
                 cols = row.select("td");
                 for(int j=0;j<cols.size();j++)
                 {
-                    date=cols.get(0);
                     cell=cols.get(j);
                     switch (cell.attr("bgcolor")) {
                         case "#9f0000":

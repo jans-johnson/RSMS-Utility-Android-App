@@ -67,6 +67,7 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
         @Override
         protected Void doInBackground(Void... voids) {
             table=WebHandler.setAttendanceTable(url);
+
             return null;
         }
         @Override
@@ -78,6 +79,7 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
             dialog.show();
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
