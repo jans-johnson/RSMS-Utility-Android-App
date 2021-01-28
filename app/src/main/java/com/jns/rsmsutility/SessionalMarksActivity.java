@@ -1,5 +1,6 @@
 package com.jns.rsmsutility;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -23,6 +24,11 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessional_marks);
+
+        ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("Sessional Marks");
+
         spinnersemsess=findViewById(R.id.spinnersemsess);
         wvsessional=findViewById(R.id.wvsessional);
         wvsubjects=findViewById(R.id.wvsubjects);

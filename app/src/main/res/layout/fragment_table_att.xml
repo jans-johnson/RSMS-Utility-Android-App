@@ -6,6 +6,14 @@
     android:orientation="vertical"
     tools:context=".TableAttFragment">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Pinch to Zoom"
+        android:textSize="24sp" />
+
     <WebView
         android:id="@+id/wvtable"
         android:layout_width="match_parent"
