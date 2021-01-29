@@ -1,6 +1,8 @@
 package com.jns.rsmsutility;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -11,6 +13,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +27,25 @@ public class MainActivity extends AppCompatActivity {
     TextView tvname,tvuid,tvpassword;
     ImageView ivpic;
     CardView cvattendance,cvinternalmarks,cvsessionalmarks;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.logout)
+        {
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+            Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.LoginActivity.class);
+            startActivityForResult(intent, 3);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     //method to save the credentials to sharedPreferences to be reused
     public void saveCred()

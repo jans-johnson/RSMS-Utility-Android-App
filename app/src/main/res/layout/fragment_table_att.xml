@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Pinch to Zoom"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <WebView
         android:id="@+id/wvtable"
