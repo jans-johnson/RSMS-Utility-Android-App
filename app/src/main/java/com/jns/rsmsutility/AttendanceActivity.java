@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -111,22 +112,22 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
 
-        ActionBar actionBar=getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Attendance");
 
         //to prevent the activity from going in landscape mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        lvHours=findViewById(R.id.lvHours);
-        tvtotal=findViewById(R.id.tvTotal);
-        tvLeave=findViewById(R.id.tvLeave);
-        tvApproved=findViewById(R.id.tvApproved);
-        tvDuty=findViewById(R.id.tvDuty);
-        tvDutyAtt=findViewById(R.id.tvDutyAtt);
+        lvHours = findViewById(R.id.lvHours);
+        tvtotal = findViewById(R.id.tvTotal);
+        tvLeave = findViewById(R.id.tvLeave);
+        tvApproved = findViewById(R.id.tvApproved);
+        tvDuty = findViewById(R.id.tvDuty);
+        tvDutyAtt = findViewById(R.id.tvDutyAtt);
 
-        wvtable=findViewById(R.id.wvtable);
-        spinnersem=findViewById(R.id.spinnersem);
+        wvtable = findViewById(R.id.wvtable);
+        spinnersem = findViewById(R.id.spinnersem);
 
         //Scale the WebView to fit the screen
         wvtable.getSettings().setLoadWithOverviewMode(true);
@@ -134,13 +135,13 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
         //to enable zooming in the activity
         wvtable.getSettings().setBuiltInZoomControls(true);
 
-        btnshowstat=findViewById(R.id.btnshowstat);
-        btnshowtable=findViewById(R.id.btnshowtable);
+        btnshowstat = findViewById(R.id.btnshowstat);
+        btnshowtable = findViewById(R.id.btnshowtable);
 
-        fragmentManager=getSupportFragmentManager();
-        listFragment=fragmentManager.findFragmentById(R.id.listFragment);
-        btnFragment=fragmentManager.findFragmentById(R.id.btnFragment);
-        tableFragment=fragmentManager.findFragmentById(R.id.tableFragment);
+        fragmentManager = getSupportFragmentManager();
+        listFragment = fragmentManager.findFragmentById(R.id.listFragment);
+        btnFragment = fragmentManager.findFragmentById(R.id.btnFragment);
+        tableFragment = fragmentManager.findFragmentById(R.id.tableFragment);
 
         fragmentManager.beginTransaction()
                 .hide(listFragment)
@@ -170,9 +171,16 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
             }
         });
 
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,WebHandler.listsem);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnersem.setAdapter(adapter);
+        try {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, WebHandler.listsem);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnersem.setAdapter(adapter);
+        } catch (NullPointerException e)
+        {
+            Toast.makeText(AttendanceActivity.this,"Invalid Login Id/ Password",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(AttendanceActivity.this,com.jns.rsmsutility.LoginActivity.class);
+            startActivityForResult(intent, 3);
+        }
 
         spinnersem.setOnItemSelectedListener(this);
 

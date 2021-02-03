@@ -2,6 +2,7 @@ package com.jns.rsmsutility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,9 +66,9 @@ public class WebHandler
             listsem = new ArrayList<String>(Arrays.asList(list));
             listsem.remove("Class");
             listsem.remove("Code:");
-            InputStream inputStream=new java.net.URL("https://www.rajagiritech.ac.in/stud/ktu/stud/Photo/"+user+".jpg").openStream();
-            image= BitmapFactory.decodeStream(inputStream);
             if (!home.title().equals("RSET - RSMS Login")) {
+                InputStream inputStream=new java.net.URL("https://www.rajagiritech.ac.in/stud/ktu/stud/Photo/"+user+".jpg").openStream();
+                image= BitmapFactory.decodeStream(inputStream);
                  return home.getElementsByClass("scroller").text().split(":")[1];
             }
             else {
@@ -76,9 +78,8 @@ public class WebHandler
         }
         catch (Exception e)
         {
-            //handle
+            return "x";
         }
-        return "x";
     }
 
     public static String setAttendanceTable(String url)

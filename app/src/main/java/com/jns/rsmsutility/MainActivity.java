@@ -172,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
             dialog=new ProgressDialog(MainActivity.this);
             dialog.setTitle("login");
             dialog.setMessage("Please wait while loading...");
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.show();
         }
 
