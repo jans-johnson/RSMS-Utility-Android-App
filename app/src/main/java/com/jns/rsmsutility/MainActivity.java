@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import hotchemi.android.rate.AppRate;
+
 
 public class MainActivity extends AppCompatActivity {
     String name;
@@ -73,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setContentView(R.layout.activity_main);
+
+        AppRate.with(this)
+                .setInstallDays(5)
+                .setLaunchTimes(10)
+                .setRemindInterval(1)
+                .monitor();
+        AppRate.showRateDialogIfMeetsConditions(this);
 
         ivpic=findViewById(R.id.ivpic);
         tvname=findViewById(R.id.tvname);
