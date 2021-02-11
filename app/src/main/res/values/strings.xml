@@ -12,4 +12,29 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="attendance">Attendance</string>
+    <string name="rsms">RSMS</string>
+    <string name="rajagiri_student_management_system">Rajagiri Student Management System</string>
+    <string name="password">Password</string>
+    <string name="user_id">User Id</string>
+    <string name="login">Login</string>
+    <string name="sem">Sem:</string>
+    <string name="type">Type:</string>
+    <string name="nb_only_limited_amount_of_type_fields_are_available_here_visit_the_official_website_for_more">Nb: Only limited amount of typefields are available here. Visit the official Website for more.</string>
+    <string name="visit_the_website">Visit the Website</string>
+    <string name="sessional_marks">Sessional Marks</string>
+    <string name="internal_marks">Internal Marks</string>
+    <string name="tvpassword">Password</string>
+    <string name="uid">Uid</string>
+    <string name="name">Name</string>
+    <string name="todo">TODO</string>
+    <string name="tvrsms">RSMS</string>
+    <string name="utility_app">Utility App</string>
+    <string name="table">Table</string>
+    <string name="stat">Stat</string>
+    <string name="total_hours_lost">Total Hours Lost:</string>
+    <string name="leave">Leave:</string>
+    <string name="approved_leave">Approved Leave :</string>
+    <string name="duty_leave">Duty Leave:</string>
+    <string name="duty_attendance">Duty Attendance:</string>
+    <string name="pinch_to_zoom">Pinch to Zoom</string>
 </resources>

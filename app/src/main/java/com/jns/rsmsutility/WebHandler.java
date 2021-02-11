@@ -2,7 +2,6 @@ package com.jns.rsmsutility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -10,7 +9,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,9 +29,9 @@ public class WebHandler
     public static Map<String,String> getCookie()
     {
         try {
-            Connection.Response loginForm = Jsoup.connect("http://rajagiritech.ac.in/stud/parent/varify.asp")
+            Connection.Response loginForm = Jsoup.connect("https://www.rajagiritech.ac.in/stud/ktu/Student/varify.asp")
                     .timeout(0)
-                    .data("user", user,"pass",pass,"I1.x", "9","I1.y","9")
+                    .data("Userid", user,"Password",pass)
                     .method(Connection.Method.POST)
                     .execute();
 
@@ -63,7 +61,7 @@ public class WebHandler
                     .get();
             Element table = attendance.select("table").get(1).select("table").get(1);
             String[] list=table.text().split(" ");
-            listsem = new ArrayList<String>(Arrays.asList(list));
+            listsem = new ArrayList<>(Arrays.asList(list));
             listsem.remove("Class");
             listsem.remove("Code:");
             if (!home.title().equals("RSET - RSMS Login")) {
@@ -84,10 +82,10 @@ public class WebHandler
 
     public static String setAttendanceTable(String url)
     {
-        String attendanceTable=new String("<table width=\"96%\" border=\"0\" align=\"center\" cellpadding=\"2\" cellspacing=\"3\">\n");
+        String attendanceTable= "<table width=\"96%\" border=\"0\" align=\"center\" cellpadding=\"2\" cellspacing=\"3\">\n";
         coky=getCookie();
         hrs=dahrs=dhrs=lhrs=aphrs=0;
-        hournumber=new ArrayList<String>();
+        hournumber= new ArrayList<>();
         try {
             Document attendance = Jsoup.connect(url)
                     .cookies(coky)

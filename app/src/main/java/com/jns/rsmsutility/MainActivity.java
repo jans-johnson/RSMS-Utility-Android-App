@@ -2,11 +2,11 @@ package com.jns.rsmsutility;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -71,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //to prevent the activity from going in landscape mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //to prevent the activity from going dark mode
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setContentView(R.layout.activity_main);
 
+
+
         AppRate.with(this)
                 .setInstallDays(5)
-                .setLaunchTimes(10)
+                .setLaunchTimes(6)
                 .setRemindInterval(1)
                 .monitor();
         AppRate.showRateDialogIfMeetsConditions(this);

@@ -1,5 +1,6 @@
 package com.jns.rsmsutility;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -36,6 +38,7 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         ActionBar actionBar=getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Internal Marks");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         wvimark=findViewById(R.id.wvimark);
         wvsubtable=findViewById(R.id.wvsubtable);
@@ -84,6 +87,15 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         spinnertypeimark.setOnItemSelectedListener(this);
 
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -129,6 +141,8 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
             dialog=new ProgressDialog(InternalMarksActivity.this);
             dialog.setTitle("Fetching Data");
             dialog.setMessage("Please wait while loading...");
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.show();
         }
         protected void onPostExecute(Void aVoid) {

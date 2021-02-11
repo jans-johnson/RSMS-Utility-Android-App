@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.142"
-        tools:ignore="MissingConstraints"></ImageView>
+        tools:ignore="MissingConstraints"
+        android:contentDescription="@string/todo"></ImageView>
 
     <ImageView
         android:id="@+id/ivpic"
@@ -32,13 +33,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.301"
-        app:srcCompat="@drawable/image" />
+        app:srcCompat="@drawable/image"
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/tvname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/name"
         android:textColor="@color/blue_primary"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,7 +54,7 @@
         android:id="@+id/tvuid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Uid"
+        android:text="@string/uid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.909"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +64,7 @@
         android:id="@+id/tvpassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         app:layout_constraintBottom_toTopOf="@+id/cvattendance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
@@ -95,8 +97,9 @@
                 android:id="@+id/imageView"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:layout_marginLeft="5dp"
-                app:srcCompat="@drawable/attendance" />
+                android:layout_marginStart="5dp"
+                app:srcCompat="@drawable/attendance"
+                android:contentDescription="@string/todo" />
 
             <TextView
                 android:layout_width="0dp"
@@ -137,7 +140,8 @@
                 android:id="@+id/imageView2"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                app:srcCompat="@drawable/ticklogo" />
+                app:srcCompat="@drawable/ticklogo"
+                android:contentDescription="@string/todo" />
 
             <TextView
                 android:layout_width="0dp"
@@ -145,7 +149,7 @@
                 android:layout_weight="1"
                 android:fontFamily="monospace"
                 android:gravity="center"
-                android:text="Internal Marks"
+                android:text="@string/internal_marks"
                 android:textColor="#372E2E"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -178,7 +182,8 @@
             <ImageView
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                app:srcCompat="@drawable/assessment" />
+                app:srcCompat="@drawable/assessment"
+                android:contentDescription="@string/todo" />
 
             <TextView
                 android:layout_width="0dp"
@@ -186,7 +191,7 @@
                 android:layout_weight="1"
                 android:fontFamily="monospace"
                 android:gravity="center"
-                android:text="Sessional Marks"
+                android:text="@string/sessional_marks"
                 android:textColor="#372E2E"
                 android:textSize="30sp"
                 android:textStyle="bold" />

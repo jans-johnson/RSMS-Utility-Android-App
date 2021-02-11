@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:text="Sem:"
+        android:text="@string/sem"
         app:layout_constraintBottom_toTopOf="@+id/spinnersemimark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Type:"
+        android:text="@string/type"
         app:layout_constraintBottom_toTopOf="@+id/spinnertypeimark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.114"
@@ -74,7 +74,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:text='Nb: Only limited amount of "type" fields are available here. Visit the official Website for more.'
+        android:text="@string/nb_only_limited_amount_of_type_fields_are_available_here_visit_the_official_website_for_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wvsubtable" />
@@ -83,7 +83,7 @@
         android:id="@+id/btngotoweb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visit the Website"
+        android:text="@string/visit_the_website"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />

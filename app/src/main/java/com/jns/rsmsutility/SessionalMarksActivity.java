@@ -1,5 +1,6 @@
 package com.jns.rsmsutility;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
         ActionBar actionBar=getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Sessional Marks");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         spinnersemsess=findViewById(R.id.spinnersemsess);
         wvsessional=findViewById(R.id.wvsessional);
@@ -38,17 +41,22 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
         wvsubjects.getSettings().setUseWideViewPort(true);
         wvsubjects.getSettings().setDefaultFontSize(30);
 
-        //Scale the WebView to fit the screen
-        //wvsessional.getSettings().setLoadWithOverviewMode(true);
-        //wvsessional.getSettings().setUseWideViewPort(true);
-        //to enable zooming in the activity
         wvsessional.getSettings().setBuiltInZoomControls(true);
 
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,WebHandler.listsem);
+        ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, WebHandler.listsem);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnersemsess.setAdapter(adapter);
 
         spinnersemsess.setOnItemSelectedListener(this);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -84,6 +92,8 @@ public class SessionalMarksActivity extends AppCompatActivity implements Adapter
             dialog=new ProgressDialog(SessionalMarksActivity.this);
             dialog.setTitle("Fetching Data");
             dialog.setMessage("Please wait while loading...");
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.show();
         }
         protected void onPostExecute(Void aVoid) {

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Total Hours Lost:"
+        android:text="@string/total_hours_lost"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Leave: "
+        android:text="@string/leave"
         android:textColor="#FF0000"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Approved Leave :"
+        android:text="@string/approved_leave"
         android:textColor="#1E9123"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Duty Leave:"
+        android:text="@string/duty_leave"
         android:textColor="#FF5722"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Duty Attendance:"
+        android:text="@string/duty_attendance"
         android:textColor="#CDDC39"
         android:textSize="20sp"
         android:textStyle="bold" />

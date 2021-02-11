@@ -1,5 +1,6 @@
 package com.jns.rsmsutility;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,19 +13,17 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class AttendanceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -100,7 +99,7 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
                 tvDutyAtt.setText("Duty Attendance: " + WebHandler.dahrs);
                 dialog.dismiss();
 
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AttendanceActivity.this, android.R.layout.simple_list_item_1, WebHandler.hournumber);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AttendanceActivity.this, android.R.layout.simple_list_item_1, WebHandler.hournumber);
                 lvHours.setAdapter(arrayAdapter);
             }
 
@@ -115,6 +114,7 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Attendance");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //to prevent the activity from going in landscape mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -149,30 +149,20 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
                 .show(tableFragment)
                 .commit();
 
-        btnshowtable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction()
-                        .hide(listFragment)
-                        .show(btnFragment)
-                        .show(tableFragment)
-                        .commit();
-            }
-        });
+        btnshowtable.setOnClickListener(v -> fragmentManager.beginTransaction()
+                .hide(listFragment)
+                .show(btnFragment)
+                .show(tableFragment)
+                .commit());
 
-        btnshowstat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction()
-                        .show(listFragment)
-                        .show(btnFragment)
-                        .hide(tableFragment)
-                        .commit();
-            }
-        });
+        btnshowstat.setOnClickListener(v -> fragmentManager.beginTransaction()
+                .show(listFragment)
+                .show(btnFragment)
+                .hide(tableFragment)
+                .commit());
 
         try {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, WebHandler.listsem);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, WebHandler.listsem);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnersem.setAdapter(adapter);
         } catch (NullPointerException e)
@@ -186,5 +176,15 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
 
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
