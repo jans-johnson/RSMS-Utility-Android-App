@@ -1,4 +1,4 @@
-package com.jns.rsmsutility;
+package com.jns.rsmsutility.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,6 +16,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.jns.rsmsutility.R;
+import com.jns.rsmsutility.adapters.WebHandler;
 
 public class SessionalMarksActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 

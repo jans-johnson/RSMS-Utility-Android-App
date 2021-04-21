@@ -1,4 +1,4 @@
-package com.jns.rsmsutility;
+package com.jns.rsmsutility.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -20,6 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.jns.rsmsutility.R;
+import com.jns.rsmsutility.adapters.WebHandler;
 
 import java.util.ArrayList;
 
@@ -68,7 +71,7 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         values.add("38");
         values.add("44");
 
-        ArrayAdapter<String> semadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,WebHandler.listsem);
+        ArrayAdapter<String> semadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, WebHandler.listsem);
         semadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnersemimark.setAdapter(semadapter);
 

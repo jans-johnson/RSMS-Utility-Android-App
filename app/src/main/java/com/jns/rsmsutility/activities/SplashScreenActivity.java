@@ -1,4 +1,4 @@
-package com.jns.rsmsutility;
+package com.jns.rsmsutility.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.jns.rsmsutility.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

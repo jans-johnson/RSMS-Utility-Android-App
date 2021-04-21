@@ -1,7 +1,9 @@
-package com.jns.rsmsutility;
+package com.jns.rsmsutility.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.jns.rsmsutility.models.Constants;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -29,7 +31,7 @@ public class WebHandler
     public static Map<String,String> getCookie()
     {
         try {
-            Connection.Response loginForm = Jsoup.connect("https://www.rajagiritech.ac.in/stud/ktu/Student/varify.asp")
+            Connection.Response loginForm = Jsoup.connect(Constants.loginURL)
                     .timeout(0)
                     .data("Userid", user,"Password",pass)
                     .method(Connection.Method.POST)
@@ -51,12 +53,12 @@ public class WebHandler
         coky=getCookie();
         try {
 
-            Document home = Jsoup.connect("https://www.rajagiritech.ac.in/stud/ktu/Student/Home.asp")
+            Document home = Jsoup.connect(Constants.homeURL)
                     .cookies(coky)
                     .get();
 
             coky=getCookie();
-            Document attendance = Jsoup.connect("https://www.rajagiritech.ac.in/stud/ktu/Student/Leave.asp")
+            Document attendance = Jsoup.connect(Constants.attendanceURL)
                     .cookies(coky)
                     .get();
             Element table = attendance.select("table").get(1).select("table").get(1);

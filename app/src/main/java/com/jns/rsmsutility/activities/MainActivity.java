@@ -1,4 +1,4 @@
-package com.jns.rsmsutility;
+package com.jns.rsmsutility.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jns.rsmsutility.R;
 
 import hotchemi.android.rate.AppRate;
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.clear();
             editor.apply();
-            Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.LoginActivity.class);
+            Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.activities.LoginActivity.class);
             startActivityForResult(intent, 3);
         }
         return super.onOptionsItemSelected(item);
@@ -53,16 +55,16 @@ public class MainActivity extends AppCompatActivity {
     public void saveCred()
     {
         SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString("uid",WebHandler.user);
-        editor.putString("pass",WebHandler.pass);
+        editor.putString("uid", com.jns.rsmsutility.adapters.WebHandler.user);
+        editor.putString("pass", com.jns.rsmsutility.adapters.WebHandler.pass);
         editor.apply();
     }
 
     //method to obtain credentials from sharedPreferences
     public void getCred()
     {
-        WebHandler.user=sharedPreferences.getString("uid","");
-        WebHandler.pass=sharedPreferences.getString("pass","");
+        com.jns.rsmsutility.adapters.WebHandler.user=sharedPreferences.getString("uid","");
+        com.jns.rsmsutility.adapters.WebHandler.pass=sharedPreferences.getString("pass","");
 
     }
 
@@ -96,30 +98,30 @@ public class MainActivity extends AppCompatActivity {
 
 
             if(!sharedPreferences.contains("pass")) {
-                Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.LoginActivity.class);
+                Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.activities.LoginActivity.class);
                 startActivityForResult(intent, 3);
             }
             else {
                 //setting info in the app if previously logged in
                 getCred();
-                jsoupTest=new JsoupTest(WebHandler.user,WebHandler.pass);
+                jsoupTest=new JsoupTest(com.jns.rsmsutility.adapters.WebHandler.user, com.jns.rsmsutility.adapters.WebHandler.pass);
                 jsoupTest.execute();
             }
 
 
         //setting on click listener of Attendance CardView
         cvattendance.setOnClickListener(v -> {
-            Intent intent1=new Intent(MainActivity.this, AttendanceActivity.class);
+            Intent intent1=new Intent(MainActivity.this, com.jns.rsmsutility.activities.AttendanceActivity.class);
             startActivity(intent1);
         });
 
         cvinternalmarks.setOnClickListener(v -> {
-            Intent intent=new Intent(MainActivity.this,InternalMarksActivity.class);
+            Intent intent=new Intent(MainActivity.this, com.jns.rsmsutility.activities.InternalMarksActivity.class);
             startActivity(intent);
         });
 
         cvsessionalmarks.setOnClickListener(v -> {
-            Intent intent=new Intent(MainActivity.this,SessionalMarksActivity.class);
+            Intent intent=new Intent(MainActivity.this, com.jns.rsmsutility.activities.SessionalMarksActivity.class);
             startActivity(intent);
         });
 
@@ -138,11 +140,11 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode==RESULT_OK)
             {
                 assert data != null;
-                WebHandler.user=data.getStringExtra("uid");
-                WebHandler.pass=data.getStringExtra("pass");
+                com.jns.rsmsutility.adapters.WebHandler.user=data.getStringExtra("uid");
+                com.jns.rsmsutility.adapters.WebHandler.pass=data.getStringExtra("pass");
 
 
-                jsoupTest=new JsoupTest(WebHandler.user,WebHandler.pass);
+                jsoupTest=new JsoupTest(com.jns.rsmsutility.adapters.WebHandler.user, com.jns.rsmsutility.adapters.WebHandler.pass);
                 jsoupTest.execute();
 
 
@@ -170,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             //checking if the Credentials entered by the user is correct
-            name=WebHandler.getAuth(username,password);
+            name= com.jns.rsmsutility.adapters.WebHandler.getAuth(username,password);
             return null;
         }
 
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             //checking the authentication of the user
             if(name.equals(" ")) {
                 Toast.makeText(MainActivity.this,"Invalid Login Id/ Password",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.LoginActivity.class);
+                Intent intent=new Intent(MainActivity.this,com.jns.rsmsutility.activities.LoginActivity.class);
                 startActivityForResult(intent, 3);
             }
             else if(name.equals("x")){
@@ -206,9 +208,9 @@ public class MainActivity extends AppCompatActivity {
             {
                 saveCred();
                 tvname.setText(name);
-                tvuid.setText(WebHandler.user);
-                tvpassword.setText(WebHandler.pass);
-                ivpic.setImageBitmap(WebHandler.image);
+                tvuid.setText(com.jns.rsmsutility.adapters.WebHandler.user);
+                tvpassword.setText(com.jns.rsmsutility.adapters.WebHandler.pass);
+                ivpic.setImageBitmap(com.jns.rsmsutility.adapters.WebHandler.image);
             }
             dialog.dismiss();
         }

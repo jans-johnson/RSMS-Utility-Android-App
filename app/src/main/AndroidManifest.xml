@@ -13,18 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RsmsUtility"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SessionalMarksActivity"></activity>
-        <activity android:name=".InternalMarksActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".activities.SessionalMarksActivity"></activity>
+        <activity android:name=".activities.InternalMarksActivity" />
+        <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AttendanceActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.AttendanceActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>

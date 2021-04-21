@@ -1,4 +1,4 @@
-package com.jns.rsmsutility;
+package com.jns.rsmsutility.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -23,6 +23,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jns.rsmsutility.R;
+import com.jns.rsmsutility.adapters.WebHandler;
 
 
 public class AttendanceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -67,7 +70,7 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
 
         @Override
         protected Void doInBackground(Void... voids) {
-            table=WebHandler.setAttendanceTable(url);
+            table= WebHandler.setAttendanceTable(url);
 
             return null;
         }
@@ -168,7 +171,7 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
         } catch (NullPointerException e)
         {
             Toast.makeText(AttendanceActivity.this,"Invalid Login Id/ Password",Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(AttendanceActivity.this,com.jns.rsmsutility.LoginActivity.class);
+            Intent intent=new Intent(AttendanceActivity.this,com.jns.rsmsutility.activities.LoginActivity.class);
             startActivityForResult(intent, 3);
         }
 
