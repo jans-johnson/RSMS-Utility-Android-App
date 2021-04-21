@@ -3,6 +3,8 @@ package com.jns.rsmsutility.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -78,8 +80,7 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         btngotoweb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.rajagiritech.ac.in/stud/ktu/Student/"));
-                startActivity(intent);
+                openCustomTab("https://www.rajagiritech.ac.in/stud/ktu/Student/");
             }
         });
         ArrayAdapter<String> typeadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,attr);
@@ -165,6 +166,16 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
             }
 
         }
+    }
+
+    void openCustomTab(String url)
+    {
+        CustomTabsIntent.Builder builder=new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(this,R.color.blue_primary));
+        builder.addDefaultShareMenuItem();
+
+        CustomTabsIntent customTabsIntent=builder.build();
+        customTabsIntent.launchUrl(this,Uri.parse(url));
     }
 
 }

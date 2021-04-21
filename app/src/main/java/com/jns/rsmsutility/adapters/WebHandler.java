@@ -51,13 +51,12 @@ public class WebHandler
         user=us;
         pass=pa;
         coky=getCookie();
+
         try {
 
             Document home = Jsoup.connect(Constants.homeURL)
                     .cookies(coky)
                     .get();
-
-            coky=getCookie();
             Document attendance = Jsoup.connect(Constants.attendanceURL)
                     .cookies(coky)
                     .get();
