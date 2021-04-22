@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.jns.rsmsutility.models.Constants;
+import com.jns.rsmsutility.models.User;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -22,7 +23,7 @@ import java.util.Set;
 
 public class WebHandler
 {
-    public static String user,pass,subjectsTable;
+    public static String subjectsTable;
     public static int hrs,lhrs,aphrs,dhrs,dahrs;
     public static Map<String, String> coky;
     public static ArrayList<String> listsem,hournumber;
@@ -34,7 +35,7 @@ public class WebHandler
         try {
             Connection.Response loginForm = Jsoup.connect(Constants.loginURL)
                     .timeout(0)
-                    .data("Userid", user,"Password",pass)
+                    .data("Userid", User.user,"Password",User.pass)
                     .method(Connection.Method.POST)
                     .execute();
 
@@ -49,8 +50,8 @@ public class WebHandler
 
     public static String getAuth(String us,String pa)
     {
-        user=us;
-        pass=pa;
+        User.user=us;
+        User.pass=pa;
         coky=getCookie();
 
         try {
@@ -67,7 +68,7 @@ public class WebHandler
             listsem.remove("Class");
             listsem.remove("Code:");
             if (!home.title().equals("RSET - RSMS Login")) {
-                InputStream inputStream=new java.net.URL("https://www.rajagiritech.ac.in/stud/ktu/stud/Photo/"+user+".jpg").openStream();
+                InputStream inputStream=new java.net.URL("https://www.rajagiritech.ac.in/stud/ktu/stud/Photo/"+User.user+".jpg").openStream();
                 image= BitmapFactory.decodeStream(inputStream);
                  return home.getElementsByClass("scroller").text().split(":")[1];
             }
@@ -85,7 +86,6 @@ public class WebHandler
     public static String setAttendanceTable(String url)
     {
         String attendanceTable= "<table width=\"96%\" border=\"0\" align=\"center\" cellpadding=\"2\" cellspacing=\"3\">\n";
-        coky=getCookie();
         hrs=dahrs=dhrs=lhrs=aphrs=0;
         hournumber= new ArrayList<>();
         try {
@@ -148,7 +148,6 @@ public class WebHandler
 
     public static String setSessionalMarkTable(String url)
     {
-        coky=getCookie();
         try {
             Document attendance = Jsoup.connect(url)
                     .cookies(coky)
@@ -167,7 +166,6 @@ public class WebHandler
     }
 
     public static Element getType(String url) throws IOException {
-        coky=getCookie();
         Document attendance = Jsoup.connect(url)
                 .cookies(coky)
                 .get();
