@@ -26,14 +26,17 @@ import android.widget.Toast;
 import com.jns.rsmsutility.R;
 import com.jns.rsmsutility.adapters.WebHandler;
 
+import org.jsoup.nodes.Element;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class InternalMarksActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     WebView wvimark,wvsubtable;
     Spinner spinnersemimark,spinnertypeimark;
     ArrayList<String> attr,values;
-    Button btngotoweb;
     int pos1;
 
     @Override
@@ -49,7 +52,6 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         wvsubtable=findViewById(R.id.wvsubtable);
         spinnersemimark=findViewById(R.id.spinnersemimark);
         spinnertypeimark=findViewById(R.id.spinnertypeimark);
-        btngotoweb=findViewById(R.id.btngotoweb);
 
         wvsubtable.getSettings().setLoadWithOverviewMode(true);
         wvsubtable.getSettings().setUseWideViewPort(true);
@@ -58,34 +60,13 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         wvimark.getSettings().setBuiltInZoomControls(true);
 
         attr=new ArrayList<String>();
-        attr.add("Internal Exam 1");
-        attr.add("Internal Exam 2");
-        attr.add("Assignment 1");
-        attr.add("Assignment 2");
-        attr.add("Assignment 3");
-        attr.add("Practical exam");
-
         values=new ArrayList<String>();
-        values.add("10");
-        values.add("11");
-        values.add("12");
-        values.add("37");
-        values.add("38");
-        values.add("44");
 
         ArrayAdapter<String> semadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, WebHandler.listsem);
         semadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnersemimark.setAdapter(semadapter);
 
-        btngotoweb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCustomTab("https://www.rajagiritech.ac.in/stud/ktu/Student/");
-            }
-        });
-        ArrayAdapter<String> typeadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,attr);
-        typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnertypeimark.setAdapter(typeadapter);
+
 
         spinnersemimark.setOnItemSelectedListener(this);
         spinnertypeimark.setOnItemSelectedListener(this);
@@ -101,27 +82,75 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
+
         if(parent.getId()==R.id.spinnersemimark)
         {
             pos1=position;
+            attr.clear();
+            values.clear();
+            SetType setType=new SetType();
+            setType.execute();
             ArrayAdapter<String> typeadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,attr);
             typeadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            typeadapter.add("<Select>");
+            values.add("XXX");
             spinnertypeimark.setAdapter(typeadapter);
-            spinnertypeimark.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         }
         else if(parent.getId()==R.id.spinnertypeimark)
         {
-            SetInternals setInternals=new SetInternals("https://www.rajagiritech.ac.in/stud/ktu/Student/Mark.asp?code="+WebHandler.listsem.get(pos1)+"&E_ID="+values.get(position));
-            setInternals.execute();
+            if(position!=0) {
+                SetInternals setInternals = new SetInternals("https://www.rajagiritech.ac.in/stud/ktu/Student/Mark.asp?code=" + WebHandler.listsem.get(pos1) + "&E_ID=" + values.get(position));
+                setInternals.execute();
+            }
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public class SetType extends AsyncTask<Void,Void,Void>
+    {
+        ProgressDialog dialog;
+        Element table;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog=new ProgressDialog(InternalMarksActivity.this);
+            dialog.setTitle("Fetching Data");
+            dialog.setMessage("Please wait while loading...");
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                table=WebHandler.getType("https://www.rajagiritech.ac.in/stud/ktu/Student/Mark.asp?code="+WebHandler.listsem.get(pos1));
+                String[] list=table.toString().split("> <");
+                ArrayList listsem = new ArrayList<>(Arrays.asList(list));
+                listsem.remove("<select style=\"width: 150px; font-size: 8pt\" id=\"list3\" name=\"E_ID\" class=\"ibox\"");
+                listsem.remove("/select>");
+                for (int i = 0; i < listsem.size(); i++)
+                {
+                    values.add(listsem.get(i).toString().split("\"")[1]);
+                    attr.add(listsem.get(i).toString().split(">")[1].split("<")[0]);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            dialog.dismiss();
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -168,14 +197,5 @@ public class InternalMarksActivity extends AppCompatActivity implements AdapterV
         }
     }
 
-    void openCustomTab(String url)
-    {
-        CustomTabsIntent.Builder builder=new CustomTabsIntent.Builder();
-        builder.setToolbarColor(ContextCompat.getColor(this,R.color.blue_primary));
-        builder.addDefaultShareMenuItem();
-
-        CustomTabsIntent customTabsIntent=builder.build();
-        customTabsIntent.launchUrl(this,Uri.parse(url));
-    }
 
 }

@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -165,5 +166,14 @@ public class WebHandler
         return " ";
     }
 
+    public static Element getType(String url) throws IOException {
+        coky=getCookie();
+        Document attendance = Jsoup.connect(url)
+                .cookies(coky)
+                .get();
+
+        Element table = attendance.select("table").get(1).select("table").get(1).getElementById("list3");
+        return table;
+    }
 
 }
