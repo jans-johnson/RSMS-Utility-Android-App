@@ -7,18 +7,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +29,9 @@ import android.widget.Toast;
 
 import com.jns.rsmsutility.R;
 import com.jns.rsmsutility.adapters.WebHandler;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 
 public class AttendanceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -41,6 +47,8 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
 
     FragmentManager fragmentManager;
     Fragment tableFragment,listFragment,btnFragment;
+
+    private static DecimalFormat df = new DecimalFormat("0.00");
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -177,8 +185,47 @@ public class AttendanceActivity extends AppCompatActivity implements AdapterView
 
         spinnersem.setOnItemSelectedListener(this);
 
+        lvHours.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                btn_showMessage(Integer.parseInt(parent.getItemAtPosition(position).toString().split(":")[1].trim()),parent.getItemAtPosition(position).toString().split(":")[0].trim());
+            }
+        });
+    }
+    float percentage;
+    int total ;
 
-
+    public void btn_showMessage(int leave,String subject){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(AttendanceActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.percentage_dialog,null);
+        final EditText txt_inputText = (EditText)mView.findViewById(R.id.txt_input);
+        Button btn_cancel = (Button)mView.findViewById(R.id.btn_cancel);
+        Button btn_okay = (Button)mView.findViewById(R.id.btn_okay);
+        TextView subjectTv=(TextView) mView.findViewById(R.id.subjectTv);
+        TextView percentageTv=(TextView) mView.findViewById(R.id.percentageTv);
+        percentageTv.setVisibility(View.INVISIBLE);
+        subjectTv.setText(subject);
+        alert.setView(mView);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        btn_okay.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                df.setRoundingMode(RoundingMode.DOWN);
+                total =Integer.parseInt(txt_inputText.getText().toString());
+                percentage= (float) (((float)(total-leave)/(float)total)*100.0);
+                percentageTv.setText(df.format(percentage)+" %");
+                percentageTv.setVisibility(View.VISIBLE);
+            }
+        });
+        alertDialog.show();
     }
 
     @Override
